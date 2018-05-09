@@ -12,9 +12,9 @@
 <body>
 		<form action='createNote' method='post'>
 		<input type='text' name='content' placeholder="Note Content"><br>
-<!-- 		Author: <input type='text' name='author'><br>
-		Note category: <input type='text' name='category'><br> -->
-		<input type='date' name='deadline' placeholder="Deadline"><br>
+		<input type='text' name='category' placeholder="Category"><br>
+		<input type='text' name='spotifyurl' placeholder="URL"><br>
+		<!-- <input type='date' name='deadline' placeholder="Deadline"><br> -->
 		<input type='submit' value='Submit'>
 		</form>
 

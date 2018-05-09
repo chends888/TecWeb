@@ -21,9 +21,8 @@ public class DAO {
 
 	public List<Note> getList() {
 		List<Note> Notes = new ArrayList<Note>();
-		PreparedStatement stmt;
 		try {
-			stmt = connection.prepareStatement("SELECT * FROM Notes");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Notes");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Note note = new Note();
@@ -31,8 +30,7 @@ public class DAO {
 				note.setContent(rs.getString("content"));
 				note.setUser_id(rs.getInt("user_id"));
 				note.setCategory(rs.getString("category"));
-				Calendar deadline = Calendar.getInstance();
-				deadline.setTime(rs.getDate("deadline"));
+				Calendar deadline = null;
 				note.setDeadline(deadline);
 				note.setSpotifyurl(rs.getString("spotifyurl"));
 				Notes.add(note);
@@ -54,29 +52,46 @@ public class DAO {
 		}
 	}
 
+	// public void create(Note note) {
+	// String sql = "INSERT INTO Notes" + "(content, user_id, category, deadline,
+	// spotifyurl) values(?,?,?,?,?)";
+	// PreparedStatement stmt;
+	// try {
+	// stmt = connection.prepareStatement(sql);
+	// stmt.setString(1, note.getContent());
+	// stmt.setInt(2, 22);
+	// stmt.setString(3, note.getCategory());
+	// stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
+	// stmt.setString(5, note.getSpotifyurl());
+	// stmt.execute();
+	// stmt.close();
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
+
 	public void create(Note note) {
-		String sql = "INSERT INTO Notes" + "(content,user_id,category,deadline,spotifyurl) values(?,?,?,?,?)";
-		PreparedStatement stmt;
 		try {
-			stmt = connection.prepareStatement(sql);
+			String sql = "INSERT INTO Notes (content, user_id, category, deadline, spotifyurl) values(?,?,?,?,?)";
+			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, note.getContent());
-			stmt.setLong(2, note.getUser_id());
+			stmt.setInt(2, 3);
 			stmt.setString(3, note.getCategory());
-			stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
+			// stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
+			stmt.setDate(4, null);
 			stmt.setString(5, note.getSpotifyurl());
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void update(Note note) {
 		String sql = "UPDATE Notes SET " + "content=?, user_id=?, category=?, deadline=?, spotifyurl=? WHERE note_id=?";
-		PreparedStatement stmt;
 		try {
-			stmt = connection.prepareStatement(sql);
+			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, note.getContent());
 			stmt.setLong(2, note.getUser_id());
 			stmt.setString(3, note.getCategory());
@@ -90,17 +105,42 @@ public class DAO {
 		}
 	}
 
-	public void remove(Integer id) {
-		PreparedStatement stmt;
+	public void remove(Note note) {
+		System.out.println(note);
+		System.out.println(note.getNote_id());
 		try {
-			stmt = connection.prepareStatement("DELETE FROM Notes WHERE note_id=?");
-			stmt.setLong(1, id);
+			PreparedStatement stmt = connection.prepareStatement("DELETE FROM Notes WHERE note_id=?");
+			stmt.setInt(1, note.getNote_id());
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public Note findNote(Integer note_id) {
+		Note note = new Note();
+		try {
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Notes WHERE id = ?");
+			stmt.setLong(1, note_id);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				note.setNote_id(rs.getInt("note_id"));
+				note.setContent(rs.getString("content"));
+				note.setUser_id(rs.getInt("user_id"));
+				note.setCategory(rs.getString("category"));
+				Calendar deadline = null;
+				note.setDeadline(deadline);
+				note.setSpotifyurl(rs.getString("spotifyurl"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return note;
 	}
 
 }

@@ -3,6 +3,7 @@ package mvc.controller;
 import java.sql.SQLException;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import mvc.model.DAO;
@@ -10,22 +11,57 @@ import mvc.model.Note;
 
 @Controller
 public class NotesController {
+
 	@RequestMapping("/")
-	public String execute() {
-		// System.out.println("Lógica do MVC");
+	public String lista(Model model) {
+
+		try {
+			DAO dao = new DAO();
+			model.addAttribute("notes", dao.getList());
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
+		return "home";
+	}
+
+	@RequestMapping("/create")
+	public String create() {
 		return "create";
 	}
 
 	@RequestMapping("createNote")
-	public String create(Note note) {
-		DAO dao;
+	public String adiciona(Note note) {
+
 		try {
-			dao = new DAO();
+			DAO dao = new DAO();
 			dao.create(note);
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "create";
+		return "added";
+	}
+
+	@RequestMapping("remove")
+	public String remove(Note note) {
+		try {
+			DAO dao = new DAO();
+			dao.remove(note);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/";
+	}
+
+	@RequestMapping("edit")
+	public String edit(Integer note_id, Model model) {
+		try {
+			DAO dao = new DAO();
+			model.addAttribute("note", dao.findNote(note_id));
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(model);
+		return "edit";
 	}
 }
