@@ -39,7 +39,7 @@ public class NotesController {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		return "added";
+		return "redirect:/";
 	}
 
 	@RequestMapping("remove")
@@ -55,13 +55,26 @@ public class NotesController {
 
 	@RequestMapping("edit")
 	public String edit(Integer note_id, Model model) {
+		System.out.println(note_id);
 		try {
 			DAO dao = new DAO();
+			// model.addAttribute("note", dao.findNote(note_id));
 			model.addAttribute("note", dao.findNote(note_id));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println(model);
 		return "edit";
+	}
+
+	@RequestMapping("editNote")
+	public String edit(Note note) {
+		try {
+			DAO dao = new DAO();
+			dao.update(note);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/";
 	}
 }

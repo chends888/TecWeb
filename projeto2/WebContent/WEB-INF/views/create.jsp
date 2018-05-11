@@ -14,7 +14,7 @@
 		<input type='text' name='content' placeholder="Note Content"><br>
 		<input type='text' name='category' placeholder="Category"><br>
 		<input type='text' name='spotifyurl' placeholder="URL"><br>
-		<!-- <input type='date' name='deadline' placeholder="Deadline"><br> -->
+		<!--  <input type='date' name='deadline' placeholder="Deadline"><br> -->
 		<input type='submit' value='Submit'>
 		</form>
 

@@ -52,34 +52,16 @@ public class DAO {
 		}
 	}
 
-	// public void create(Note note) {
-	// String sql = "INSERT INTO Notes" + "(content, user_id, category, deadline,
-	// spotifyurl) values(?,?,?,?,?)";
-	// PreparedStatement stmt;
-	// try {
-	// stmt = connection.prepareStatement(sql);
-	// stmt.setString(1, note.getContent());
-	// stmt.setInt(2, 22);
-	// stmt.setString(3, note.getCategory());
-	// stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
-	// stmt.setString(5, note.getSpotifyurl());
-	// stmt.execute();
-	// stmt.close();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
-
 	public void create(Note note) {
 		try {
 			String sql = "INSERT INTO Notes (content, user_id, category, deadline, spotifyurl) values(?,?,?,?,?)";
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, note.getContent());
+			// TODO Fix hardcode
 			stmt.setInt(2, 3);
 			stmt.setString(3, note.getCategory());
-			// stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
-			stmt.setDate(4, null);
+			stmt.setDate(4, new Date(11 / 11 / 1111));
+			// stmt.setDate(4, null);
 			stmt.setString(5, note.getSpotifyurl());
 			stmt.execute();
 			stmt.close();
@@ -93,11 +75,14 @@ public class DAO {
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setString(1, note.getContent());
-			stmt.setLong(2, note.getUser_id());
+			// TODO Fix hardcode
+			stmt.setLong(2, 2);
 			stmt.setString(3, note.getCategory());
+			// TODO Fix hardcode
+			// stmt.setDate(4, null);
 			stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
 			stmt.setString(5, note.getSpotifyurl());
-			stmt.setInt(5, note.getNote_id());
+			stmt.setInt(6, note.getNote_id());
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
@@ -120,9 +105,10 @@ public class DAO {
 	}
 
 	public Note findNote(Integer note_id) {
+		System.out.println(note_id);
 		Note note = new Note();
 		try {
-			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Notes WHERE id = ?");
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Notes WHERE note_id = ?");
 			stmt.setLong(1, note_id);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -134,6 +120,8 @@ public class DAO {
 				note.setDeadline(deadline);
 				note.setSpotifyurl(rs.getString("spotifyurl"));
 			}
+
+			System.out.println(note.getContent());
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
