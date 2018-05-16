@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import mvc.model.DAO;
 import mvc.model.Note;
+import mvc.model.User;
 
 @Controller
 public class NotesController {
@@ -25,13 +26,13 @@ public class NotesController {
 		return "home";
 	}
 
-	@RequestMapping("/create")
+	@RequestMapping("create")
 	public String create() {
 		return "create";
 	}
 
 	@RequestMapping("createNote")
-	public String adiciona(Note note) {
+	public String add(Note note) {
 
 		try {
 			DAO dao = new DAO();
@@ -63,7 +64,7 @@ public class NotesController {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(model);
+//		System.out.println(model);
 		return "edit";
 	}
 
@@ -72,6 +73,26 @@ public class NotesController {
 		try {
 			DAO dao = new DAO();
 			dao.update(note);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/";
+	}
+	
+	
+	// Login and session
+	@RequestMapping("signup")
+	public String signup() {
+		return "signupform";
+	}
+	
+	@RequestMapping("addUser")
+	public String adiciona(User user) {
+
+		try {
+			DAO dao = new DAO();
+			dao.createUser(user);
+			System.out.println(user.getPassword());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

@@ -16,7 +16,7 @@ public class DAO {
 
 	public DAO() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/projeto2", "root", "8888");
+		connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/projeto2", "chends", "8888");
 	}
 
 	public List<Note> getList() {
@@ -30,7 +30,10 @@ public class DAO {
 				note.setContent(rs.getString("content"));
 				note.setUser_id(rs.getInt("user_id"));
 				note.setCategory(rs.getString("category"));
-				Calendar deadline = null;
+				// TODO hardcode
+				Calendar deadline = Calendar.getInstance();
+				Date day = rs.getDate("deadline");
+				deadline.setTime(day);
 				note.setDeadline(deadline);
 				note.setSpotifyurl(rs.getString("spotifyurl"));
 				Notes.add(note);
@@ -60,8 +63,7 @@ public class DAO {
 			// TODO Fix hardcode
 			stmt.setInt(2, 3);
 			stmt.setString(3, note.getCategory());
-			stmt.setDate(4, new Date(11 / 11 / 1111));
-			// stmt.setDate(4, null);
+			stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
 			stmt.setString(5, note.getSpotifyurl());
 			stmt.execute();
 			stmt.close();
@@ -91,8 +93,8 @@ public class DAO {
 	}
 
 	public void remove(Note note) {
-		System.out.println(note);
-		System.out.println(note.getNote_id());
+//		System.out.println(note);
+//		System.out.println(note.getNote_id());
 		try {
 			PreparedStatement stmt = connection.prepareStatement("DELETE FROM Notes WHERE note_id=?");
 			stmt.setInt(1, note.getNote_id());
@@ -105,7 +107,7 @@ public class DAO {
 	}
 
 	public Note findNote(Integer note_id) {
-		System.out.println(note_id);
+//		System.out.println(note_id);
 		Note note = new Note();
 		try {
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Notes WHERE note_id = ?");
@@ -121,7 +123,7 @@ public class DAO {
 				note.setSpotifyurl(rs.getString("spotifyurl"));
 			}
 
-			System.out.println(note.getContent());
+//			System.out.println(note.getContent());
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
@@ -129,6 +131,20 @@ public class DAO {
 		}
 
 		return note;
+	}
+	
+	public void createUser(User user) {
+		try {
+			String sql = "INSERT INTO User (username, pwd) values(?,?)";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			System.out.println(user.getPassword());
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

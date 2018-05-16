@@ -1,6 +1,9 @@
 package mvc.model;
 
 import java.util.Calendar;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 // Estrutura do dado que irá ser inserido no database, nosso objeto em java, o Javabean.
 
@@ -10,6 +13,7 @@ public class Note {
 	private String content;
 	private Integer user_id;
 	private String category;
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Calendar deadline;
 	private String spotifyurl;
 

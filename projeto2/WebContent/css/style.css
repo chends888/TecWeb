@@ -30,13 +30,19 @@ input:focus {
 table {
 	color: #333;
 	font-family: Helvetica, Arial, sans-serif;
-	width: 640px;
+	width: 800px;
 	border-collapse: collapse;
 	border-spacing: 0;
 	border: 2px solid #333;
 }
 
-button, input[type=submit] {
+
+h1, h2, title {
+	color: #333;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+button, input[type=submit], a {
 	padding: 10px 22px;
 	text-align: center;
 	text-decoration: none;
@@ -48,10 +54,10 @@ button, input[type=submit] {
 	cursor: pointer;
 	background-color: white;
 	color: #333;
-	border: 2px solid #e7e7e7;
+	border: 2px solid #babdb6;
 }
 
-button:hover, input[type=submit]:hover {
+button:hover, input[type=submit]:hover, a:hover {
 	background: #666;
 	color: #FFF;
 }
@@ -87,3 +93,5 @@ tr td:hover {
 	color: #FFF;
 }
 /* Hover cell effect! */
+
+
