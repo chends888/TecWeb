@@ -2,9 +2,12 @@ package mvc.controller;
 
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import mvc.model.DAO;
 import mvc.model.Note;
@@ -59,12 +62,10 @@ public class NotesController {
 		System.out.println(note_id);
 		try {
 			DAO dao = new DAO();
-			// model.addAttribute("note", dao.findNote(note_id));
 			model.addAttribute("note", dao.findNote(note_id));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-//		System.out.println(model);
 		return "edit";
 	}
 
@@ -72,30 +73,62 @@ public class NotesController {
 	public String edit(Note note) {
 		try {
 			DAO dao = new DAO();
+			System.out.println(note.getNote_id());
 			dao.update(note);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		return "redirect:/";
 	}
-	
-	
+
 	// Login and session
+	@RequestMapping("loginform")
+	public String login() {
+		return "loginform";
+	}
+
 	@RequestMapping("signup")
 	public String signup() {
 		return "signupform";
 	}
-	
-	@RequestMapping("addUser")
-	public String adiciona(User user) {
+
+	@RequestMapping(value = "addUser", method = RequestMethod.POST)
+	public String add(String username, String pwd) {
 
 		try {
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(pwd);
 			DAO dao = new DAO();
 			dao.createUser(user);
-			System.out.println(user.getPassword());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		return "redirect:/";
 	}
+
+	@RequestMapping("login")
+	public String login(String username, String pwd, HttpSession session) {
+		try {
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(pwd);
+			if (new DAO().userExists(user)) {
+				// System.out.println("found user");
+				session.setAttribute("userlogged", user);
+				return "home";
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		// System.out.println("user not found");
+		return "redirect:loginform";
+	}
+
+	@RequestMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:loginForm";
+	}
+
 }

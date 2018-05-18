@@ -11,12 +11,13 @@
 </head>
 <body>
 
-	<h2> Sign up </h2>
-	<form action='adduser' method='post'>
+	<h2> Login </h2>
+	<form action='login' method='post'>
 	<input type='text' name='username' placeholder="Username"><br>
 	<input type='password' name='pwd' placeholder="Password"><br>
 	
 	<input type='submit' value='Login'>
+	<a href="signup"> Signup </a>
 	</form>
 
 </body>

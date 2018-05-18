@@ -13,7 +13,7 @@ public class Note {
 	private String content;
 	private Integer user_id;
 	private String category;
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Calendar deadline;
 	private String spotifyurl;
 

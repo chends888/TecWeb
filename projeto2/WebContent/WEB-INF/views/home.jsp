@@ -12,7 +12,17 @@
 </head>
 <body>
 
+
+	<div align = "right">
+			Logged as: <%=session.getAttribute("userlogged")%> <br>
+		<a href="logout"> Logout</a>
+	</div>
+	
 	<h1> To-Do List </h1>
+	 
+<%-- 	<p th:text="${session.username}" th:unless="${session == null}">[...]</p>
+ --%>	
+	
 	<table align = "center">
 		<tr>
 			<th>What to do?</th>
@@ -43,8 +53,18 @@
 				
 				</c:choose> 
 				
+				<c:choose>
+					<c:when test="${not empty notes.deadline}">
+						<td><fmt:formatDate value="${notes.deadline.time}" pattern="dd/MM/yyyy"/></td>
+					</c:when>
+					
+					<c:otherwise>
+					<td> No deadline </td>
+					</c:otherwise>
 				
-				<td><fmt:formatDate value="${notes.deadline.time}" pattern="dd/MM/yyyy"/></td>
+				
+				</c:choose> 
+				
 				<td><a href="remove?note_id=${notes.note_id}">Finished</a></td>
 				<td><a href="edit?note_id=${notes.note_id}">Edit</a></td>
 

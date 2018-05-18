@@ -19,16 +19,45 @@
 	<h2> Editing note </h2>
 
 	<form action="editNote" method="post">
-		<input type="text" name="content" value="${note.content}" /><br>
-		<input type='text' name='category' value="${note.category}"><br>
-		<input type='text' name= "deadline" value="${note.deadline.get()}"><br>
+		<input type="hidden" name="note_id" value="${note.note_id}"/>
+		<input type="text" name="content" value="${note.content}" ><br>
 		
-		<%-- <input type='text' name='deadline' value= "<fmt:formatDate value='${note.deadline.time}' pattern= 'dd/MM/yyyy' />" /> <br> --%>
-		<%-- <input type="text" name="deadline" value= "<fmt:formatDate value='${note.deadline.time}' pattern= 'dd/MM/yyyy'/>"/> <br> --%>
-		<%-- <% System.out.println(note.deadline); %> --%>
-		<input type='text' name='spotifyurl' value="${note.spotifyurl}"><br>
+		
+		<c:choose>
+			<c:when test="${empty note.deadline}">
+				<td> <input type='text' name='deadline' placeholder="Category"/> <br> </td>
+			</c:when>
+			
+			<c:otherwise>
+			<input type='text' name='category' value="${note.category}"><br>
+			</c:otherwise>
+		</c:choose>
 		
 
+		<c:choose>
+			<c:when test="${empty note.deadline}">
+				<td> <input type='text' name='deadline' placeholder="Deadline (dd/MM/yyyy)"/> <br> </td>
+			</c:when>
+			
+			<c:otherwise>
+				<input type='text' name='deadline' value= "<fmt:formatDate value='${note.deadline.time}' pattern= 'dd/MM/yyyy' />"/> <br>
+			</c:otherwise>
+		</c:choose>
+		
+		
+		<c:choose>
+			<c:when test="${empty not note.spotifyurl}">
+				<input type='text' name='spotifyurl' value="${note.spotifyurl}"><br>
+			</c:when>
+			
+			<c:otherwise>
+				<td> <input type='text' name='spotifyurl' placeholder="URI"/> <br> </td>
+			</c:otherwise>
+		</c:choose>
+		
+		
+		
+	
 		<br /> <input type="submit" value="Done" />
 	</form>
 </body>

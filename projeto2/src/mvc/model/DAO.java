@@ -32,9 +32,14 @@ public class DAO {
 				note.setCategory(rs.getString("category"));
 				// TODO hardcode
 				Calendar deadline = Calendar.getInstance();
-				Date day = rs.getDate("deadline");
-				deadline.setTime(day);
-				note.setDeadline(deadline);
+				if (rs.getDate("deadline") != null) {
+					Date day = rs.getDate("deadline");
+					deadline.setTime(day);
+					note.setDeadline(deadline);
+
+				} else {
+					note.setDeadline(null);
+				}
 				note.setSpotifyurl(rs.getString("spotifyurl"));
 				Notes.add(note);
 			}
@@ -63,7 +68,11 @@ public class DAO {
 			// TODO Fix hardcode
 			stmt.setInt(2, 3);
 			stmt.setString(3, note.getCategory());
-			stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
+			if (note.getDeadline() != null) {
+				stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
+			} else {
+				stmt.setDate(4, null);
+			}
 			stmt.setString(5, note.getSpotifyurl());
 			stmt.execute();
 			stmt.close();
@@ -80,10 +89,13 @@ public class DAO {
 			// TODO Fix hardcode
 			stmt.setLong(2, 2);
 			stmt.setString(3, note.getCategory());
-			// TODO Fix hardcode
-			// stmt.setDate(4, null);
-			stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
+			if (note.getDeadline() != null) {
+				stmt.setDate(4, new Date(note.getDeadline().getTimeInMillis()));
+			} else {
+				stmt.setDate(4, null);
+			}
 			stmt.setString(5, note.getSpotifyurl());
+			// System.out.println(note.getNote_id());
 			stmt.setInt(6, note.getNote_id());
 			stmt.execute();
 			stmt.close();
@@ -93,8 +105,8 @@ public class DAO {
 	}
 
 	public void remove(Note note) {
-//		System.out.println(note);
-//		System.out.println(note.getNote_id());
+		// System.out.println(note);
+		// System.out.println(note.getNote_id());
 		try {
 			PreparedStatement stmt = connection.prepareStatement("DELETE FROM Notes WHERE note_id=?");
 			stmt.setInt(1, note.getNote_id());
@@ -107,7 +119,7 @@ public class DAO {
 	}
 
 	public Note findNote(Integer note_id) {
-//		System.out.println(note_id);
+		// System.out.println(note_id);
 		Note note = new Note();
 		try {
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Notes WHERE note_id = ?");
@@ -118,12 +130,17 @@ public class DAO {
 				note.setContent(rs.getString("content"));
 				note.setUser_id(rs.getInt("user_id"));
 				note.setCategory(rs.getString("category"));
-				Calendar deadline = null;
-				note.setDeadline(deadline);
+				Calendar deadline = Calendar.getInstance();
+				if (rs.getDate("deadline") != null) {
+					Date day = rs.getDate("deadline");
+					deadline.setTime(day);
+					note.setDeadline(deadline);
+				} else {
+					note.setDeadline(null);
+				}
 				note.setSpotifyurl(rs.getString("spotifyurl"));
 			}
-
-//			System.out.println(note.getContent());
+			// System.out.println(note.getDeadline());
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
@@ -132,7 +149,7 @@ public class DAO {
 
 		return note;
 	}
-	
+
 	public void createUser(User user) {
 		try {
 			String sql = "INSERT INTO User (username, pwd) values(?,?)";
@@ -146,5 +163,21 @@ public class DAO {
 			e.printStackTrace();
 		}
 	}
+
+	public boolean userExists(User user) {
+		 boolean exists = false;
+		 try {
+		 PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM User WHERE username=? AND pwd=? LIMIT 1");
+		 stmt.setString(1, user.getUsername());
+		 stmt.setString(2, user.getPassword());
+		 ResultSet rs = stmt.executeQuery();
+		 if(rs.next()){
+		 if(rs.getInt(1) != 0) {exists=true;}
+		 }
+		 rs.close();
+		 stmt.close();
+		 } catch(SQLException e) {System.out.println(e);}
+		 return exists;
+		 }
 
 }

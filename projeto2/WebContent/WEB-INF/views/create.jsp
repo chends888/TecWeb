@@ -81,6 +81,8 @@
 <body>
 	<h2> Creating note </h2>
 	<form action='createNote' method='post'>
+	<!-- TODO -->
+	<%-- <input type="hidden" name="note_id" value="${note.n}"/> --%>
 	<input type='text' name='content' placeholder="Note Content (required)"><br>
 	<input type='text' name='category' placeholder="Category"><br>
 	<input type='text' name='deadline' placeholder="Deadline (dd/MM/yyyy)"><br>
