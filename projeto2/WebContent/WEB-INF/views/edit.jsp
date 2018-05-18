@@ -24,8 +24,8 @@
 		
 		
 		<c:choose>
-			<c:when test="${empty note.deadline}">
-				<td> <input type='text' name='deadline' placeholder="Category"/> <br> </td>
+			<c:when test="${empty note.category}">
+				<td> <input type='text' name='category' placeholder="Category"/> <br> </td>
 			</c:when>
 			
 			<c:otherwise>

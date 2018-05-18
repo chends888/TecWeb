@@ -10,7 +10,7 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object controller)
 			throws Exception {
 		String uri = request.getRequestURI();
-		if (uri.endsWith("loginform") || uri.endsWith("login") || uri.endsWith("loginform") || uri.endsWith("signup")) {
+		if (uri.endsWith("loginform") || uri.endsWith("login") || uri.endsWith("loginform") || uri.endsWith("signup") || uri.endsWith("register")) {
 			return true;
 		}
 		if (request.getSession().getAttribute("userlogged") != null) {

@@ -59,7 +59,7 @@ public class NotesController {
 
 	@RequestMapping("edit")
 	public String edit(Integer note_id, Model model) {
-		System.out.println(note_id);
+//		System.out.println(note_id);
 		try {
 			DAO dao = new DAO();
 			model.addAttribute("note", dao.findNote(note_id));
@@ -74,6 +74,8 @@ public class NotesController {
 		try {
 			DAO dao = new DAO();
 			System.out.println(note.getNote_id());
+			System.out.println(note.getCategory());
+			System.out.println(note.getDeadline());
 			dao.update(note);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -86,16 +88,19 @@ public class NotesController {
 	public String login() {
 		return "loginform";
 	}
-
+	
 	@RequestMapping("signup")
 	public String signup() {
 		return "signupform";
 	}
 
-	@RequestMapping(value = "addUser", method = RequestMethod.POST)
+	@RequestMapping("register")
 	public String add(String username, String pwd) {
-
+		System.out.println(username);
+		System.out.println(pwd);
 		try {
+			System.out.println(username);
+			System.out.println(pwd);
 			User user = new User();
 			user.setUsername(username);
 			user.setPassword(pwd);
@@ -104,7 +109,7 @@ public class NotesController {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		return "redirect:/";
+		return "redirect:loginform";
 	}
 
 	@RequestMapping("login")
@@ -114,14 +119,13 @@ public class NotesController {
 			user.setUsername(username);
 			user.setPassword(pwd);
 			if (new DAO().userExists(user)) {
-				// System.out.println("found user");
-				session.setAttribute("userlogged", user);
-				return "home";
+				session.setAttribute("userlogged", user.getUsername());
+				return "redirect:/";
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		// System.out.println("user not found");
+//		System.out.println("user not found");
 		return "redirect:loginform";
 	}
 

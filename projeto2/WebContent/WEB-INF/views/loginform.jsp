@@ -17,7 +17,7 @@
 	<input type='password' name='pwd' placeholder="Password"><br>
 	
 	<input type='submit' value='Login'>
-	<a href="signup"> Signup </a>
+	<a href="signup"> Sign up </a>
 	</form>
 
 </body>
