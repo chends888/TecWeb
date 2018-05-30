@@ -1,0 +1,6 @@
+  applications:
+   - name: projeto2
+     random-route: true
+     path: target/projeto2.war
+     memory: 512M
+     instances: 1
