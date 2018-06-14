@@ -53,13 +53,15 @@
   </style>
 
   <title>Meme Finder</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+
 
 </head>
 
 <body>
 
-  <p>Click on the buttons inside the tabbed menu:</p>
-
+  <h2>Welcome to Meme Finder!!!</h2>
+  <h5>Find your favorite memes. Powered by Giphy</h5>
   <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'My Memes')">My Memes</button>
     <button class="tablinks" onclick="openCity(event, 'Trending')">Trending</button>
@@ -72,25 +74,25 @@
     <iframe src="${myGifsJson.data[i].embed_url}" width="${(myGifsJson.data[i].images.original.width) * 1.5}" height="${(myGifsJson.data[i].images.original.height) * 1.5}"
       frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
     <form action="/home/remove" method="POST">
-      <button class="tablinks" name="gif_id" value="${myGifsJson.data[i].id}"> Remove from My Memes</button>
+      <button name="gif_id" value="${myGifsJson.data[i].id}"> Remove from My Memes</button>
     </form>
     `).join('')}
   </div>
 
   <div id="Trending" class="tabcontent">
-    <h3>Trending</h3>
+    <h3>Trending GIF's</h3>
     ${Array(trendingJson.data.length).join(0).split(0).map((item, i) => `
     <iframe src="${trendingJson.data[i].embed_url}" width="${(trendingJson.data[i].images.original.width) * 1.5}" height="${(trendingJson.data[i].images.original.height) * 1.5}"
       frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
     <form action="/home/add" method="POST">
       <button name="gif_id" value="${trendingJson.data[i].id}"> Add to My Memes</button>
     </form>
-    `).join('')}
+    <br> `).join('')}
     < </div>
 
 
       <div id="Search" class="tabcontent">
-        <h3>Search</h3>
+        <h3>Search GIF's</h3>
 
         <form action="/home/search" method="POST">
           <input type="text" name="keywords" placeholder="Search all Giphy database">
@@ -101,9 +103,9 @@
         <iframe src="${searchJson.data[i].embed_url}" width="${(searchJson.data[i].images.original.width) * 1.5}" height="${(searchJson.data[i].images.original.height) * 1.5}"
           frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
         <form action="/home/add" method="POST">
-          <button class="tablinks" name="gif_id" value="${searchJson.data[i].id}"> Add to My Memes</button>
+          <button name="gif_id" value="${searchJson.data[i].id}"> Add to My Memes</button>
         </form>
-        `).join('')}
+        <br> `).join('')}
 
       </div>
 
