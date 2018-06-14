@@ -83,46 +83,41 @@
     <iframe src="${trendingJson.data[i].embed_url}" width="${(trendingJson.data[i].images.original.width) * 1.5}" height="${(trendingJson.data[i].images.original.height) * 1.5}"
       frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
     <form action="/home/add" method="POST">
-      <button name="gif_id" value="${trendingJson.data[i].id}"> Add to My Memes</button>
+      <button class="tablinks" name="gif_id" value="${trendingJson.data[i].id}"> Add to My Memes</button>
     </form>
     `).join('')}
-    < </div>
+
+  </div>
+  <script>
 
 
-      <div id="Search" class="tabcontent">
-        <h3>Search</h3>
+  </script>
+  <div id="Search" class="tabcontent">
+    <h3>Search</h3>
 
-        <form action="/home/search" method="POST">
-          <input type="text" name="keywords" placeholder="Search all Giphy database">
-          <button> Submit </button>
-        </form>
+    <form action="/home/search" method="POST">
+      <input type="text" name="keywords" placeholder="Search all Giphy database">
+      <button> Submit </button>
+    </form>
 
-        ${Array(searchJson.data.length).join(0).split(0).map((item, i) => `
-        <iframe src="${searchJson.data[i].embed_url}" width="${(searchJson.data[i].images.original.width) * 1.5}" height="${(searchJson.data[i].images.original.height) * 1.5}"
-          frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-        <form action="/home/add" method="POST">
-          <button class="tablinks" name="gif_id" value="${searchJson.data[i].id}"> Add to My Memes</button>
-        </form>
-        `).join('')}
+  </div>
 
-      </div>
+  <script>
+    function openCity(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
 
-      <script>
-        function openCity(evt, cityName) {
-          var i, tabcontent, tablinks;
-          tabcontent = document.getElementsByClassName("tabcontent");
-          for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-          }
-          tablinks = document.getElementsByClassName("tablinks");
-          for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-          }
-          document.getElementById(cityName).style.display = "block";
-          evt.currentTarget.className += " active";
-        }
-
-      </script>
+  </script>
 </body>
 
 </html>
