@@ -40,8 +40,11 @@ const apiKey = "api_key=YC8Q6IsUVRDc898LRu8UEUhVodqYv6CT";
 
 router.post("/remove", function (req, res) {
   var gif_id = req.body.gif_id;
+  connection.query(`DELETE from Favorite WHERE gif_id = '${gif_id}'`, function (error, results, fields) {
+    if (error) throw error;
+  });
   // console.log(req.body);
-  res.redirect("/home/" + keywords);
+  res.redirect("/home/");
 });
 
 router.post("/add", function (req, res) {
@@ -418,8 +421,7 @@ router.get("/:keywords", function (req, res) {
 
 </html>
 
-            
-            
+
 
             `
           );
