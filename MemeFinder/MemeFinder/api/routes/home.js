@@ -130,7 +130,6 @@ router.get("/", function (req, res) {
             </style>
           
             <title>Meme Finder</title>
-            <link rel="stylesheet" type="text/css" href="style.css">
           
           
           </head>
@@ -302,8 +301,6 @@ router.get("/:keywords", function (req, res) {
               </style>
             
               <title>Meme Finder</title>
-              <link rel="stylesheet" type="text/css" href="style.css">
-            
             
             </head>
             
